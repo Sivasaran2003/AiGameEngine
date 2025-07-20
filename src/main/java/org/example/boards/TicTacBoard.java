@@ -1,4 +1,4 @@
-package org.example;
+package org.example.boards;
 
 import org.example.game.Board;
 

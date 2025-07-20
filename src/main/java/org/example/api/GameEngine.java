@@ -1,4 +1,10 @@
-package org.example;
+package org.example.api;
+
+import org.example.boards.TicTacBoard;
+import org.example.game.Board;
+import org.example.game.GameResult;
+import org.example.game.Move;
+import org.example.game.Player;
 
 public class GameEngine {
     public Board start() {
