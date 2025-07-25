@@ -2,84 +2,22 @@ package org.example.api;
 
 import org.example.boards.TicTacBoard;
 import org.example.game.Board;
-import org.example.game.GameResult;
 import org.example.game.Move;
-import org.example.game.Player;
 
 public class GameEngine {
-    public Board start() {
-        return new Board();
+    public Board start(String type) {
+        if (type.equals("TicTacBoard")) {
+            return new TicTacBoard();
+        } else throw new IllegalArgumentException();
     }
 
-    public void move(Board board, Player player, Move move) {
-
-    }
-
-    public GameResult isComplete(Board board) {
-        if (board instanceof TicTacBoard) {
-            boolean rowComplete = false, colComplete = false, diagComplete = true, revDiagComplete = true;
+    public void move(Board board, Move move) {
+        if(board instanceof TicTacBoard) {
             TicTacBoard ticTacBoard = (TicTacBoard) board;
-            String firstChar = "";
-            for (int i = 0; i < 3; i++) {
-                rowComplete = true;
-                firstChar = ticTacBoard.cells[i][0];
-                for (int j = 0; j < 3; j++) {
-                    if (!ticTacBoard.cells[i][j].equals(firstChar)) {
-                        rowComplete = false;
-                        break;
-                    }
-                }
-            }
-
-            if (rowComplete) return new GameResult(true, firstChar);
-
-            for (int i = 0; i < 3; i++) {
-                colComplete = true;
-                firstChar = ticTacBoard.cells[0][i];
-                for (int j = 0; j < 3; j++) {
-                    if (!ticTacBoard.cells[j][i].equals(firstChar)) {
-                        colComplete = false;
-                        break;
-                    }
-                }
-            }
-
-            if (colComplete) return new GameResult(true, firstChar);
-
-            firstChar = ticTacBoard.cells[0][0];
-            for (int i = 0; i < 3; i++) {
-                if (!ticTacBoard.cells[i][i].equals(firstChar)) {
-                    diagComplete = false;
-                    break;
-                }
-            }
-
-            if (diagComplete) return new GameResult(true, firstChar);
-
-            firstChar = ticTacBoard.cells[0][2];
-            for (int i = 0; i < 3; i++) {
-                if (!ticTacBoard.cells[i][2 - i].equals(firstChar)) {
-                    revDiagComplete = false;
-                    break;
-                }
-            }
-
-            if (revDiagComplete) return new GameResult(true, firstChar);
-
-            int countFilledCells = 0;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    if (ticTacBoard.cells[i][j] != null) countFilledCells++;
-                }
-            }
-
-            if (countFilledCells != 9) {
-                return new GameResult(false, "-");
-            }
-
-            return new GameResult(true, "-");
+            ticTacBoard.move(move);
+        }else {
+            throw new IllegalArgumentException();
         }
-
-        return new GameResult(false, "-");
     }
+
 }

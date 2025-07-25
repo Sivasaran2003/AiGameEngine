@@ -1,5 +1,6 @@
 package org.example.game;
 
-public class Board {
-
+public interface Board {
+    public abstract void move(Move move);
+    public Board copy();
 }
