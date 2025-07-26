@@ -8,46 +8,44 @@ import java.util.function.Function;
 
 public class RuleEngine {
 
-    public GameState isVictory(BiFunction<Integer, Integer, String> next) {
-        boolean streak;
-        for (int i = 0; i < 3; i++) {
-            streak = true;
-            for(int j = 0; j < 3; j++) {
-                if(next.apply(i, j) == null || !next.apply(i, j).equals(next.apply(i, 0))) {
-                    streak = false;
-                    break;
-                }
-            }
-            if(streak) return new GameState(true, next.apply(i, 0));
-        }
-        return null;
-    }
-
-    public GameState isVictoryDiag(Function<Integer, String> next) {
+    public GameState traversal(Function<Integer, String> traversal) {
         boolean streak = true;
-        for (int i = 0; i < 3; i++) {
-            if (next.apply(i) == null || !next.apply(0).equals(next.apply(i))) {
+        GameState result = new GameState(false, "-");
+        for(int j = 0; j < 3; j++) {
+            if(traversal.apply(j) == null || !traversal.apply(j).equals(traversal.apply(0))) {
                 streak = false;
                 break;
             }
         }
-        if (streak) return new GameState(true, next.apply(0));
-        return null;
+        if(streak) result = new GameState(true, traversal.apply(0));
+        return result;
+    }
+
+    public GameState outerTraversal(BiFunction<Integer, Integer, String> next) {
+        GameState result = new GameState(false, "-");
+        for (int i = 0; i < 3; i++) {
+            final int ii = i;
+            GameState state = traversal(j -> next.apply(ii, j));
+            if(state.isGameOver()) {
+                result = state;
+            }
+        }
+        return result;
     }
 
     public GameState getState(Board board) {
         if (board instanceof TicTacBoard ticTacBoard) {
-            GameState rowWin = isVictory((i, j) -> ((TicTacBoard) board).getCell(i, j));
-            if(rowWin != null) return rowWin;
+            GameState rowWin = outerTraversal((i, j) -> ((TicTacBoard) board).getCell(i, j));
+            if(rowWin.isGameOver()) return rowWin;
 
-            GameState colWin = isVictory((i, j) -> ((TicTacBoard) board).getCell(j, i));
-            if(colWin != null) return colWin;
+            GameState colWin = outerTraversal((i, j) -> ((TicTacBoard) board).getCell(j, i));
+            if(colWin.isGameOver()) return colWin;
 
-            GameState DiagWin = isVictoryDiag((i) -> ((TicTacBoard) board).getCell(i, i));
-            if(DiagWin != null) return DiagWin;
+            GameState DiagWin = traversal((i) -> ((TicTacBoard) board).getCell(i, i));
+            if(DiagWin.isGameOver()) return DiagWin;
 
-            GameState revDiagWin = isVictoryDiag((i) -> ((TicTacBoard) board).getCell(i, 2 - i));
-            if(revDiagWin != null) return revDiagWin;
+            GameState revDiagWin = traversal((i) -> ((TicTacBoard) board).getCell(i, 2 - i));
+            if(revDiagWin.isGameOver()) return revDiagWin;
 
             // Check for incomplete game
             int countFilledCells = 0;
