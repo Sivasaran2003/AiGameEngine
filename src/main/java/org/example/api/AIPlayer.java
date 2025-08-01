@@ -51,7 +51,7 @@ public class AIPlayer extends Player {
             for(int i = 0; i < 3; i++) {
                 for(int j = 0; j < 3; j++) {
                     if(boardCopy.getCell(i, j) != null) continue;
-                    boardCopy.setCell(i, j, player.flip());
+                    boardCopy.setCell(i, j, player.flip().getPlayerSymbol());
                     if(ruleEngine.getState(boardCopy).isGameOver()) {
                         return new Move(player, new Cell(i, j));
                     }

@@ -12,7 +12,7 @@ public class Player {
         return this.playerSymbol;
     }
 
-    public String flip() {
-        return Objects.equals(playerSymbol, "O") ? "X" : "O";
+    public Player flip() {
+        return Objects.equals(playerSymbol, "O") ? new Player("X") : new Player("O");
     }
 }
