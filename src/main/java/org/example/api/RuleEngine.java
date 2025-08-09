@@ -2,7 +2,6 @@ package org.example.api;
 
 import org.example.boards.TicTacBoard;
 import org.example.game.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,37 +40,34 @@ public class RuleEngine {
         rules.get(TicTacBoard.class.getName()).add(new Rule<TicTacBoard>(board -> countMoves.apply(board)));
     }
 
-    public GameInfo getInfo(Board board) {
-        if (board instanceof TicTacBoard) {
-            Player[] players = {new Player("X"), new Player("O")};
-            Player winner;
-            for (Player player : players) {
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        TicTacBoard b = ((TicTacBoard) board).copy();
-                        if (b.getCell(i, j) != null) continue;
-                        b.move(new Move(player, new Cell(i, j)));
-                        boolean stillWins = true;
-                        for (int l = 0; l < 3; l++) {
-                            for (int m = 0; m < 3; m++) {
-                                TicTacBoard b1 = b.copy();
-                                if (b1.getCell(l, m) != null) continue;
-                                b1.move(new Move(player.flip(), new Cell(l, m)));
-                                if (getState(b1).isGameOver()) {
-                                    stillWins = false;
-                                    break;
-                                }
-                            }
-                            if (!stillWins) break;
-                        }
-                        if (stillWins) return new GameInfo(getState(board), player, true);
+    public GameInfo getInfo(Board board, Player currPlayer) {
+        if(board instanceof TicTacBoard) {
+            int winningMoves = 0;
+            GameState state = getState(board);
+            for(int i = 0; i < 3; i++) {
+                for(int j = 0; j < 3; j++) {
+                    TicTacBoard temp = ((TicTacBoard) board).copy();
+                    if(temp.getCell(i, j) != null) continue;
+                    temp.move(new Move(currPlayer.flip(), new Cell(i, j)));
+
+                    if(getState(temp).getWinner().equals(currPlayer.flip().getPlayerSymbol())) {
+                        winningMoves++;
                     }
                 }
-
-                return new GameInfo(getState(board), player, true);
             }
-        }else throw new IllegalArgumentException();
-        return null;
+
+            if(winningMoves >= 2) return new GameInfoBuilder()
+                    .isOver(true)
+                    .winner(currPlayer.flip().getPlayerSymbol())
+                    .fork(true).build();
+
+            return new GameInfoBuilder()
+                    .isOver(state.isGameOver())
+                    .winner(state.getWinner())
+                    .fork(false).build();
+        }
+
+        throw new IllegalArgumentException();
     }
 
     public GameState traversal(Function<Integer, String> traversal) {

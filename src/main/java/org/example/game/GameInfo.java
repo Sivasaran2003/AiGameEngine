@@ -1,21 +1,39 @@
 package org.example.game;
 
 public class GameInfo {
-    private GameState gameState;
     private Player currentPlayer;
     private boolean fork;
+    private String winner;
+    private boolean isOver;
 
-    public GameInfo(GameState gameState, Player currentPlayer, boolean hasFork) {
-        this.gameState = gameState;
-        this.fork = hasFork;
-        this.currentPlayer = currentPlayer;
+    public int getNumberOfMoves() {
+        return numberOfMoves;
     }
 
-    public GameState getGameState() {
-        return gameState;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public boolean isFork() {
         return fork;
     }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public boolean isOver() {
+        return isOver;
+    }
+
+    private int numberOfMoves;
+
+    public GameInfo(Player player, boolean fork, boolean isOver, int numberOfMoves, String winner) {
+        this.isOver = isOver;
+        this.winner = winner;
+        this.fork = fork;
+        this.currentPlayer = player;
+        this.numberOfMoves = numberOfMoves;
+    }
 }
+
