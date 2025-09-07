@@ -28,7 +28,7 @@ public class AIPlayer extends Player {
                 if(board.getCell(row, col) != null) continue;
                 TicTacBoard boardCopy = board.copy();
                 boardCopy.move(new Move(player, new Cell(row, col)));
-                GameInfo gameInfo = ruleEngine.getInfo(boardCopy, player);
+                GameInfo gameInfo = ruleEngine.getInfo(boardCopy, player.flip());
                 if(gameInfo.isFork()) {
                     return new Cell(row, col);
                 }
