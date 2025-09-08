@@ -14,6 +14,7 @@ public class RuleEngine {
         rules.put(TicTacBoard.class.getName(), TicTacBoard.getRules());
     }
 
+    // return more info current player, winner, fork, number of moves, isGameOver
     public GameInfo getInfo(Board board, Player currPlayer) {
         if (board instanceof TicTacBoard) {
             int winningMoves = 0;
@@ -44,6 +45,7 @@ public class RuleEngine {
         throw new IllegalArgumentException();
     }
 
+    // applies all the rules for the provided board and returns the current state of the board
     public GameState getState(Board board) {
         if (board instanceof TicTacBoard ticTacBoard) {
             @SuppressWarnings("unchecked")

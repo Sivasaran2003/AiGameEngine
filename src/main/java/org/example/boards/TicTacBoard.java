@@ -18,7 +18,7 @@ public class TicTacBoard implements Board {
 
     @Override
     public void move(Move move) {
-        cells[move.getSymbol().getX()][move.getSymbol().getY()] = move.getPlayer().getPlayerSymbol();
+        this.setCell(move.getSymbol().getX(), move.getSymbol().getY(), move.getPlayer().getPlayerSymbol());
     }
 
     public String getCell(int x, int y) {
@@ -28,6 +28,7 @@ public class TicTacBoard implements Board {
         cells[x][y] = symbol;
     }
 
+    // for inner traversal [column traversal] - gets a function with row fixed j -> (row, j)
     public static GameState traversal(Function<Integer, String> traversal) {
         boolean streak = true;
         GameState result = new GameState(false, "-");
@@ -41,11 +42,12 @@ public class TicTacBoard implements Board {
         return result;
     }
 
+    // for outer traversal [row traversal] - gets a function (i, j) -> symbol
     public static GameState outerTraversal(BiFunction<Integer, Integer, String> next) {
         GameState result = new GameState(false, "-");
         for (int i = 0; i < 3; i++) {
             final int ii = i;
-            GameState state = traversal(j -> next.apply(ii, j));
+            GameState state = traversal(j -> next.apply(ii, j)); // fixing row for column traversal
             if(state.isGameOver()) {
                 result = state;
                 break;
@@ -56,11 +58,12 @@ public class TicTacBoard implements Board {
 
     public static RuleSet<TicTacBoard> getRules() {
         RuleSet rules = new RuleSet();
-        rules.add(new Rule<TicTacBoard>(board -> outerTraversal(board::getCell)));
-        rules.add(new Rule<TicTacBoard>(board -> outerTraversal((i, j) -> board.getCell(j, i))));
-        rules.add(new Rule<TicTacBoard>(board -> traversal(i -> board.getCell(i, i))));
-        rules.add(new Rule<TicTacBoard>(board -> traversal(i -> board.getCell(i, 2 - i))));
-        rules.add(new Rule<TicTacBoard>(board -> {
+        // each rule gets a Function where input is a type of Board and return value is GameState
+        rules.add(new Rule<TicTacBoard>(board -> outerTraversal(board::getCell))); // row wise check
+        rules.add(new Rule<TicTacBoard>(board -> outerTraversal((i, j) -> board.getCell(j, i)))); // column wise check
+        rules.add(new Rule<TicTacBoard>(board -> traversal(i -> board.getCell(i, i)))); // diagonal check
+        rules.add(new Rule<TicTacBoard>(board -> traversal(i -> board.getCell(i, 2 - i)))); // reverse diagonal check
+        rules.add(new Rule<TicTacBoard>(board -> { // game over check
             int countFilledCells = 0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {

@@ -8,7 +8,7 @@ public class Game {
         int timeTakenSinceLastMove = timeInMilliseconds - move.getPlayer().getTimeTaken();
         move.getPlayer().setTimeTaken(timeInMilliseconds);
         if(gameConfig.timed) {
-            if(!isTLE(timeTakenSinceLastMove)) {
+            if(move.getPlayer().getTimeTaken() == 0 || !isTLE(timeTakenSinceLastMove)) {
                 board.move(move);
             }else {
                 winner = move.getPlayer().flip();

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+
+// class for storing Rules for a specific board
 public class RuleSet<T extends Board> implements Iterable<Rule<T>> {
     private final List<Rule<T>> rules;
 
