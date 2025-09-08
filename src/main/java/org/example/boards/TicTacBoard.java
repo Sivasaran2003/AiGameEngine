@@ -2,14 +2,14 @@ package org.example.boards;
 
 import org.example.api.Rule;
 import org.example.api.RuleSet;
-import org.example.game.Board;
+import org.example.game.CellBoard;
 import org.example.game.GameState;
 import org.example.game.Move;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class TicTacBoard implements Board {
+public class TicTacBoard implements CellBoard {
     public String[][] cells;
 
     public TicTacBoard() {
@@ -56,14 +56,14 @@ public class TicTacBoard implements Board {
         return result;
     }
 
-    public static RuleSet<TicTacBoard> getRules() {
+    public static RuleSet getRules() {
         RuleSet rules = new RuleSet();
         // each rule gets a Function where input is a type of Board and return value is GameState
-        rules.add(new Rule<TicTacBoard>(board -> outerTraversal(board::getCell))); // row wise check
-        rules.add(new Rule<TicTacBoard>(board -> outerTraversal((i, j) -> board.getCell(j, i)))); // column wise check
-        rules.add(new Rule<TicTacBoard>(board -> traversal(i -> board.getCell(i, i)))); // diagonal check
-        rules.add(new Rule<TicTacBoard>(board -> traversal(i -> board.getCell(i, 2 - i)))); // reverse diagonal check
-        rules.add(new Rule<TicTacBoard>(board -> { // game over check
+        rules.add(new Rule(board -> outerTraversal(board::getCell))); // row wise check
+        rules.add(new Rule(board -> outerTraversal((i, j) -> board.getCell(j, i)))); // column wise check
+        rules.add(new Rule(board -> traversal(i -> board.getCell(i, i)))); // diagonal check
+        rules.add(new Rule(board -> traversal(i -> board.getCell(i, 2 - i)))); // reverse diagonal check
+        rules.add(new Rule(board -> { // game over check
             int countFilledCells = 0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {

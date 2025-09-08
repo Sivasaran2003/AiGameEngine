@@ -48,11 +48,9 @@ public class RuleEngine {
     // applies all the rules for the provided board and returns the current state of the board
     public GameState getState(Board board) {
         if (board instanceof TicTacBoard ticTacBoard) {
-            @SuppressWarnings("unchecked")
-            RuleSet<TicTacBoard> ticTacRules =
-                    (RuleSet<TicTacBoard>) rules.get(TicTacBoard.class.getName());
+            RuleSet ticTacRules = rules.get(TicTacBoard.class.getName());
 
-            for (Rule<TicTacBoard> rule : ticTacRules) {
+            for (Rule rule : ticTacRules) {
                 GameState apply = rule.condition.apply(ticTacBoard);
                 if (apply.isGameOver()) {
                     return apply;

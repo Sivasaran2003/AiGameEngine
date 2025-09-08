@@ -10,29 +10,29 @@ import java.util.function.Consumer;
 
 
 // class for storing Rules for a specific board
-public class RuleSet<T extends Board> implements Iterable<Rule<T>> {
-    private final List<Rule<T>> rules;
+public class RuleSet implements Iterable<Rule> {
+    private final List<Rule> rules;
 
     public RuleSet() {
         this.rules = new ArrayList<>();
     }
 
-    public void add(Rule<T> rule) {
+    public void add(Rule rule) {
         rules.add(rule);
     }
 
     @Override
-    public Iterator<Rule<T>> iterator() {
+    public Iterator<Rule> iterator() {
         return rules.iterator();
     }
 
     @Override
-    public void forEach(Consumer<? super Rule<T>> action) {
+    public void forEach(Consumer<? super Rule> action) {
         rules.forEach(action);
     }
 
     @Override
-    public Spliterator<Rule<T>> spliterator() {
+    public Spliterator<Rule> spliterator() {
         return rules.spliterator();
     }
 }
