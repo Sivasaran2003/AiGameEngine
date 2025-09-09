@@ -11,7 +11,7 @@ public class GamePlayTest {
     private final GameEngine gameEngine = new GameEngine();
     private final RuleEngine ruleEngine = new RuleEngine();
 
-    public GameState play(int[][] playerMoves, int[][] aiMoves, Board board) {
+    public Board play(int[][] playerMoves, int[][] aiMoves, Board board) {
         if(board instanceof TicTacBoard) {
             Player user = new Player("X");
             Player computer = new AIPlayer("O");
@@ -21,15 +21,15 @@ public class GamePlayTest {
                 System.out.println(i);
                 if (i < playerMoves.length && !ruleEngine.getState(board).isGameOver()) {
                     int[] move = playerMoves[i];
-                    gameEngine.move(board, new Move(user, new Cell(move[0], move[1])));
+                    board = gameEngine.move(board, new Move(user, new Cell(move[0], move[1])));
                 }
                 System.out.println(board);
                 if (i < aiMoves.length && !ruleEngine.getState(board).isGameOver()) {
                     int[] move = aiMoves[i];
-                    gameEngine.move(board, new Move(computer, new Cell(move[0], move[1])));
+                    board = gameEngine.move(board, new Move(computer, new Cell(move[0], move[1])));
                 }
             }
-            return ruleEngine.getState(board); 
+            return board;
         }else throw new IllegalArgumentException();
     }
 
@@ -39,7 +39,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{2, 0}, {2, 1}, {2, 2}};
         int[][] aiMoves = {{0, 0}, {0, 1}, {0, 2}};
         Board board = gameEngine.start("TicTacBoard");
-        GameState state = play(playerMoves, aiMoves, board);
+        GameState state = ruleEngine.getState(play(playerMoves, aiMoves, board));
         assertEquals("X", state.getWinner());
         assertTrue(state.isGameOver());
     }
@@ -49,7 +49,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{0, 1}, {1, 1}, {2, 1}};
         int[][] aiMoves = {{0, 0}, {1, 0}, {2, 0}};
         Board board = gameEngine.start("TicTacBoard");
-        GameState state = play(playerMoves, aiMoves, board);
+        GameState state = ruleEngine.getState(play(playerMoves, aiMoves, board));
         assertEquals("X", state.getWinner());
         assertTrue(state.isGameOver());
     }
@@ -59,7 +59,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{0, 0}, {1, 1}, {2, 2}};
         int[][] aiMoves = {{2, 0}, {2, 1}, {1, 2}};
         Board board = gameEngine.start("TicTacBoard");
-        GameState state = play(playerMoves, aiMoves, board);
+        GameState state = ruleEngine.getState(play(playerMoves, aiMoves, board));
         assertEquals("X", state.getWinner());
         assertTrue(state.isGameOver());
     }
@@ -69,7 +69,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{0, 2}, {1, 1}, {2, 0}};
         int[][] aiMoves = {{0, 1}, {2, 1}, {2, 2}};
         Board board = gameEngine.start("TicTacBoard");
-        GameState state = play(playerMoves, aiMoves, board);
+        GameState state = ruleEngine.getState(play(playerMoves, aiMoves, board));
         assertEquals("X", state.getWinner());
         assertTrue(state.isGameOver());
     }
@@ -79,7 +79,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{0, 0}, {0, 1}, {1, 2}, {2, 0}, {2, 2}};
         int[][] aiMoves = {{0, 2}, {1, 0}, {1, 1}, {2, 1}};
         Board board = gameEngine.start("TicTacBoard");
-        GameState state = play(playerMoves, aiMoves, board);
+        GameState state = ruleEngine.getState(play(playerMoves, aiMoves, board));
         assertEquals("-", state.getWinner());
         assertTrue(state.isGameOver());
     }
@@ -89,8 +89,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{1, 2}, {2, 2}, {2, 1}};
         int[][] aiMoves = {{2, 0}, {0, 2}, {0, 1}};
         Board board = gameEngine.start("TicTacBoard");
-        play(playerMoves, aiMoves, board);
-        GameInfo info = ruleEngine.getInfo(board, new Player("X"));
+        GameInfo info = ruleEngine.getInfo(play(playerMoves, aiMoves, board), new Player("X"));
         assertEquals("O", info.getWinner());
         assertTrue(info.isFork());
     }
@@ -100,8 +99,7 @@ public class GamePlayTest {
         int[][] playerMoves = {{0, 2}, {1, 1}, {2, 0}};
         int[][] aiMoves = {{0, 1}, {2, 1}, {2, 2}};
         Board board = gameEngine.start("TicTacBoard");
-        play(playerMoves, aiMoves, board);
-        GameInfo info = ruleEngine.getInfo(board, new Player("X"));
+        GameInfo info = ruleEngine.getInfo(play(playerMoves, aiMoves, board), new Player("X"));
         System.out.println(board);
         assertEquals("X", info.getWinner());
         assertTrue(info.isOver());

@@ -23,7 +23,7 @@ public class RuleEngine {
                 for (int j = 0; j < 3; j++) {
                     TicTacBoard temp = ((TicTacBoard) board).copy();
                     if (temp.getCell(i, j) != null) continue;
-                    temp.move(new Move(currPlayer.flip(), new Cell(i, j)));
+                    temp = temp.move(new Move(currPlayer.flip(), new Cell(i, j)));
 
                     if (getState(temp).getWinner().equals(currPlayer.flip().getPlayerSymbol())) {
                         winningMoves++;

@@ -1,24 +1,30 @@
 package org.example.boards;
-
 import org.example.api.Rule;
 import org.example.api.RuleSet;
+import org.example.game.Board;
 import org.example.game.CellBoard;
 import org.example.game.GameState;
 import org.example.game.Move;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class TicTacBoard implements CellBoard {
     public String[][] cells;
+    public History history;
 
     public TicTacBoard() {
         cells = new String[3][3];
+        history = new History();
     }
 
     @Override
-    public void move(Move move) {
-        this.setCell(move.getSymbol().getX(), move.getSymbol().getY(), move.getPlayer().getPlayerSymbol());
+    public TicTacBoard move(Move move) {
+        TicTacBoard board = this.copy();
+        board.setCell(move.getSymbol().getX(), move.getSymbol().getY(), move.getPlayer().getPlayerSymbol());
+        history.put(board);
+        return board;
     }
 
     public String getCell(int x, int y) {
@@ -115,4 +121,31 @@ public class TicTacBoard implements CellBoard {
 
         return String.valueOf(brd);
     }
+}
+
+class History {
+    List<Board> boards;
+
+    public History() {
+        boards = new ArrayList<>();
+    }
+
+    public void put(Board board) {
+        boards.add(board);
+    }
+
+    public Board undo() {
+        if(boards.isEmpty()) throw new IllegalStateException();
+
+        boards.remove(boards.size() - 1);
+        return boards.get(boards.size() - 1);
+    }
+
+    public Board getNthMove(int index) {
+        for(int i = boards.size() - 1; i > index; i--) {
+            boards.remove(i);
+        }
+        return boards.get(boards.size() - 1);
+    }
+
 }

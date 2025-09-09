@@ -11,13 +11,14 @@ public class GameEngine {
         } else throw new IllegalArgumentException();
     }
 
-    public void move(Board board, Move move) {
-        if(board instanceof TicTacBoard) {
-            TicTacBoard ticTacBoard = (TicTacBoard) board;
-            ticTacBoard.move(move);
+    public Board move(Board board, Move move) {
+        if(board instanceof TicTacBoard ticTacBoard) {
+            board = ticTacBoard.move(move);
         }else {
             throw new IllegalArgumentException();
         }
+
+        return board;
     }
 
 }

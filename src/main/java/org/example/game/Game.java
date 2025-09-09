@@ -9,12 +9,12 @@ public class Game {
         move.getPlayer().setTimeTaken(timeInMilliseconds);
         if(gameConfig.timed) {
             if(move.getPlayer().getTimeTaken() == 0 || !isTLE(timeTakenSinceLastMove)) {
-                board.move(move);
+                board = board.move(move);
             }else {
                 winner = move.getPlayer().flip();
             }
         } else {
-            board.move(move);
+            board = board.move(move);
         }
     }
 
