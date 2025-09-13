@@ -23,6 +23,7 @@ public class RuleEngine {
                 for (int j = 0; j < 3; j++) {
                     TicTacBoard temp = ((TicTacBoard) board).copy();
                     if (temp.getCell(i, j) != null) continue;
+                    // checking : placing the last player's symbol in any of the place makes them a winner
                     temp = temp.move(new Move(currPlayer.flip(), new Cell(i, j)));
 
                     if (getState(temp).getWinner().equals(currPlayer.flip().getPlayerSymbol())) {
@@ -31,6 +32,7 @@ public class RuleEngine {
                 }
             }
 
+            // if last player has the possibility of winning with 2 or more moves
             if (winningMoves >= 2) return new GameInfoBuilder()
                     .isOver(true)
                     .winner(currPlayer.flip().getPlayerSymbol())

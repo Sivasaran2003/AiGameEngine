@@ -3,6 +3,8 @@ package org.example;
 import org.example.api.AIPlayer;
 import org.example.api.GameEngine;
 import org.example.api.RuleEngine;
+import org.example.boards.BoardProxy;
+import org.example.boards.TicTacBoard;
 import org.example.game.Board;
 import org.example.game.Cell;
 import org.example.game.Move;
@@ -25,11 +27,11 @@ public class Main {
             row = scanner.nextInt();
             col = scanner.nextInt();
             Move oppMove = new Move(user, new Cell(row, col));
-            gameEngine.move(board, oppMove);
+            board = gameEngine.move(board, oppMove);
 
             if(!ruleEngine.getState(board).isGameOver()) {
                 Move compMove = computer.suggestMove(board, computer);
-                gameEngine.move(board, compMove);
+                board = gameEngine.move(board, compMove);
                 System.out.println("Computer move : " + compMove);
             }
 
@@ -37,6 +39,11 @@ public class Main {
         }
 
         System.out.println(ruleEngine.getState(board).getWinner() + " is the winner ");
+        TicTacBoard ticTacBoard = (TicTacBoard) board;
+
+        for(BoardProxy proxy : gameEngine.getHistory().getBoards()) {
+            System.out.println(proxy);
+        }
     }
 }
 

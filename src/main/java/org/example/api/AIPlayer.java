@@ -18,12 +18,13 @@ public class AIPlayer extends Player {
         if(board instanceof TicTacBoard) {
             int threshold = 3;
             Move suggestion = null;
-
             // based on threshold making specific move
-            if(countFilledCells(board) < threshold) suggestion = new Move(player, getBasicMoveCell(board));
-            else if(countFilledCells(board) < threshold + 1) suggestion = new Move(player, getSmartMoveCell(board, player));
-            else suggestion = new Move(player, getOptimalMove((TicTacBoard) board, player));
-            if(suggestion == null) throw new IllegalStateException();
+            if(countFilledCells(board) < threshold)
+                suggestion = new Move(player, getBasicMoveCell(board));
+            else if(countFilledCells(board) < threshold + 1)
+                suggestion = new Move(player, getSmartMoveCell(board, player));
+            else
+                suggestion = new Move(player, getOptimalMove((TicTacBoard) board, player));
             return suggestion;
         }else throw new IllegalArgumentException();
     }
@@ -53,7 +54,7 @@ public class AIPlayer extends Player {
 
     private Cell getSmartMoveCell(Board board, Player player) {
         if(board instanceof TicTacBoard) {
-            Cell best = getSmartMoveCell(board, player);
+            Cell best = OffensePlacement.get().getWinningMoveCell((TicTacBoard) board, player);
             if(best != null) return best;
 
             return getBasicMoveCell(board);
@@ -72,7 +73,7 @@ public class AIPlayer extends Player {
                         break;
                     }
                 }
-                if(row != -1 && col != -1) break;
+                if(row != -1) break;
             }
 
             return new Cell(row, col);
