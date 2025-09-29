@@ -3,7 +3,7 @@ package org.example.game;
 public class GameInfoBuilder {
     private Player currentPlayer;
     private boolean fork;
-    private String winner;
+    private Player winner;
     private boolean isOver;
     private int numberOfMoves;
 
@@ -17,7 +17,7 @@ public class GameInfoBuilder {
         return this;
     }
 
-    public GameInfoBuilder winner(String winner) {
+    public GameInfoBuilder winner(Player winner) {
         this.winner = winner;
         return this;
     }

@@ -4,6 +4,7 @@ import org.example.api.RuleSet;
 import org.example.game.CellBoard;
 import org.example.game.GameState;
 import org.example.game.Move;
+import org.example.game.Player;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -33,20 +34,20 @@ public class TicTacBoard implements CellBoard {
     // for inner traversal [column traversal] - gets a function with row fixed j -> (row, j)
     public static GameState traversal(Function<Integer, String> traversal) {
         boolean streak = true;
-        GameState result = new GameState(false, "-");
+        GameState result = new GameState(false, new Player("-"));
         for(int j = 0; j < 3; j++) {
             if(traversal.apply(j) == null || !traversal.apply(j).equals(traversal.apply(0))) {
                 streak = false;
                 break;
             }
         }
-        if(streak) result = new GameState(true, traversal.apply(0));
+        if(streak) result = new GameState(true, new Player(traversal.apply(0)));
         return result;
     }
 
     // for outer traversal [row traversal] - gets a function (i, j) -> symbol
     public static GameState outerTraversal(BiFunction<Integer, Integer, String> next) {
-        GameState result = new GameState(false, "-");
+        GameState result = new GameState(false, new Player("-"));
         for (int i = 0; i < 3; i++) {
             final int ii = i;
             GameState state = traversal(j -> next.apply(ii, j)); // fixing row for column traversal
@@ -75,9 +76,9 @@ public class TicTacBoard implements CellBoard {
                 }
             }
             if (countFilledCells != 9) {
-                return new GameState(false, "-");
+                return new GameState(false, new Player("-"));
             }
-            return new GameState(true, "-");
+            return new GameState(true, new Player("-"));
         }));
 
         return rules;

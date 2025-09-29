@@ -1,15 +1,15 @@
 package org.example.game;
 
 public class GameState {
-    private String winner;
+    private Player winner;
     private boolean isOver;
 
-    public GameState(boolean isOver, String winner) {
+    public GameState(boolean isOver, Player winner) {
         this.isOver = isOver;
         this.winner = winner;
     }
 
-    public String getWinner() {
+    public Player getWinner() {
         return winner;
     }
 

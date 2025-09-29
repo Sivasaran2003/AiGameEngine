@@ -3,7 +3,7 @@ package org.example.game;
 public class GameInfo {
     private Player currentPlayer;
     private boolean fork;
-    private String winner;
+    private Player winner;
     private boolean isOver;
 
     public int getNumberOfMoves() {
@@ -18,7 +18,7 @@ public class GameInfo {
         return fork;
     }
 
-    public String getWinner() {
+    public Player getWinner() {
         return winner;
     }
 
@@ -28,7 +28,7 @@ public class GameInfo {
 
     private int numberOfMoves;
 
-    public GameInfo(Player player, boolean fork, boolean isOver, int numberOfMoves, String winner) {
+    public GameInfo(Player player, boolean fork, boolean isOver, int numberOfMoves, Player winner) {
         this.isOver = isOver;
         this.winner = winner;
         this.fork = fork;

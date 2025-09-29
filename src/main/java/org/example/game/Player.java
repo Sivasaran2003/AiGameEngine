@@ -1,16 +1,27 @@
 package org.example.game;
 
+import org.example.api.User;
+
 import java.util.Objects;
 
 public class Player {
     private final String playerSymbol;
     private int timeTaken;
+    private User user;
     public Player(String playerSymbol) {
         this.playerSymbol = playerSymbol;
     }
 
     public String getPlayerSymbol() {
         return this.playerSymbol;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getTimeTaken() {

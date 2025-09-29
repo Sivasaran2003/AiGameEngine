@@ -26,7 +26,7 @@ public class RuleEngine {
                     // checking : placing the last player's symbol in any of the place makes them a winner
                     temp = temp.move(new Move(currPlayer.flip(), new Cell(i, j)));
 
-                    if (getState(temp).getWinner().equals(currPlayer.flip().getPlayerSymbol())) {
+                    if (getState(temp).getWinner().getPlayerSymbol().equals(currPlayer.flip().getPlayerSymbol())) {
                         winningMoves++;
                     }
                 }
@@ -35,7 +35,7 @@ public class RuleEngine {
             // if last player has the possibility of winning with 2 or more moves
             if (winningMoves >= 2) return new GameInfoBuilder()
                     .isOver(true)
-                    .winner(currPlayer.flip().getPlayerSymbol())
+                    .winner(new Player(currPlayer.flip().getPlayerSymbol()))
                     .fork(true).build();
 
             return new GameInfoBuilder()
@@ -58,7 +58,7 @@ public class RuleEngine {
                     return apply;
                 }
             }
-            return new GameState(false, "-");
+            return new GameState(false, new Player("-"));
         }
         throw new IllegalArgumentException("Unsupported board type: " + board.getClass());
     }

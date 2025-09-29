@@ -3,7 +3,7 @@ package org.example.game;
 import org.example.boards.TicTacBoard;
 
 public class GameCreator {
-    public Game createGame(Integer maxTimePerMove, Integer maxTimePerPlayer) {
+    public static Game createGame(Integer maxTimePerMove, Integer maxTimePerPlayer) {
         return new Game(
                 new GameConfig(maxTimePerMove, maxTimePerPlayer != null),
                 null,
@@ -14,7 +14,7 @@ public class GameCreator {
         );
     }
 
-    public Game createGame(Integer maxTimePerMove, Integer maxTimePerPlayer, Board board) {
+    public static Game createGame(Integer maxTimePerMove, Integer maxTimePerPlayer, Board board) {
         return new Game(
                 new GameConfig(maxTimePerMove, maxTimePerPlayer != null),
                 null,
@@ -22,6 +22,17 @@ public class GameCreator {
                 0,
                 maxTimePerPlayer,
                 maxTimePerMove
+        );
+    }
+
+    public static Game createGame() {
+        return new Game(
+                new GameConfig(0, false),
+                null,
+                new TicTacBoard(),
+                0,
+                null,
+                null
         );
     }
 
