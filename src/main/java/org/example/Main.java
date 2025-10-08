@@ -1,13 +1,12 @@
 package org.example;
 
-import org.example.api.AIPlayer;
-import org.example.api.EmailService;
-import org.example.api.GameEngine;
-import org.example.api.RuleEngine;
+import org.example.api.*;
 import org.example.boards.BoardProxy;
 import org.example.boards.TicTacBoard;
 import org.example.commands.SendEmailCommand;
-import org.example.commands.SendEmailCommandBuilder;
+import org.example.commands.SendSMSCommand;
+import org.example.commands.builders.SendEmailCommandBuilder;
+import org.example.commands.builders.SendSMSCommandBuilder;
 import org.example.game.*;
 
 import java.util.Scanner;
@@ -20,6 +19,7 @@ public class Main {
         RuleEngine ruleEngine = new RuleEngine();
         Game game = GameCreator.createGame();
         EmailService emailService = new EmailService();
+        SMSService smsService = new SMSService();
 
         int row, col;
         Scanner scanner = new Scanner(System.in);
@@ -29,9 +29,14 @@ public class Main {
             Player human = new Player("X");
 
             if(human.getUser().activeAfter(10, TimeUnit.DAYS)) {
-                emailService.execute(new SendEmailCommandBuilder()
-                        .message("Welcome back !!")
-                        .receiver(human.getUser())
+                emailService.execute( new SendEmailCommandBuilder()
+                                .user(human.getUser())
+                                .link("www.tic-tac-toe.com")
+                                .message("Welcome back")
+                        .build());
+                smsService.execute(new SendSMSCommandBuilder()
+                        .user(human.getUser())
+                        .message("Welcome back")
                         .build());
             }
 
@@ -53,15 +58,18 @@ public class Main {
         System.out.println(ruleEngine.getState(board).getWinner() + " is the winner ");
         TicTacBoard ticTacBoard = (TicTacBoard) board;
 
-        emailService.execute(new SendEmailCommandBuilder()
-                .receiver(ruleEngine.getState(board).getWinner().getUser())
-                        .message("Congrats in the Win !!")
+        emailService.execute(new SendEmailCommandBuilder().
+                user(ruleEngine.getState(board).getWinner().getUser())
+                .message("Congrats on the win")
+                .user(ruleEngine.getState(board).getWinner().getUser())
+                .build());
+        smsService.execute(new SendSMSCommandBuilder()
+                .user(ruleEngine.getState(board).getWinner().getUser())
+                .message("Congrats on the win")
                 .build());
 
         for(BoardProxy proxy : gameEngine.getHistory().getBoards()) {
             System.out.println(proxy);
         }
-
-
     }
 }

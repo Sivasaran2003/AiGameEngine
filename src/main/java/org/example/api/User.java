@@ -3,7 +3,7 @@ package org.example.api;
 import java.util.concurrent.TimeUnit;
 
 public class User {
-    String email;
+    String email, phoneNum;
     Long lastActiveTime;
 
     public boolean activeAfter(int threshold, TimeUnit timeUnit) {

@@ -1,21 +1,22 @@
-package org.example.commands;
+package org.example.commands.builders;
 
 import org.example.api.User;
+import org.example.commands.SendCommand;
+import org.example.commands.SendEmailCommand;
 
 public class SendEmailCommandBuilder {
-    private User receiver;
-    private String message;
+    private final SendBuilder sendBuilder = new SendBuilder();
     private String link;
     private String templateId;
     private String templateString;
 
-    public SendEmailCommandBuilder receiver(User receiver) {
-        this.receiver = receiver;
+    public SendEmailCommandBuilder user(User user) {
+        sendBuilder.setReceiver(user);
         return this;
     }
 
     public SendEmailCommandBuilder message(String message) {
-        this.message = message;
+        sendBuilder.setMessage(message);
         return this;
     }
 
@@ -35,6 +36,6 @@ public class SendEmailCommandBuilder {
     }
 
     public SendEmailCommand build() {
-        return new SendEmailCommand(receiver, message, link, templateId, templateString);
+        return new SendEmailCommand(sendBuilder.getReceiver(), sendBuilder.getMessage(), link, templateId, templateString);
     }
 }
