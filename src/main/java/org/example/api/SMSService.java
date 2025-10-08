@@ -7,7 +7,8 @@ public class SMSService {
         //todo:logic for sending sms
     }
 
-    public void execute(SendSMSCommand command) {
+    public Void execute(SendSMSCommand command) {
         sendSMS(command.getReceiver(), command.getMessage());
+        return null;
     }
 }

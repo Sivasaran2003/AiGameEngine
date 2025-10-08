@@ -7,7 +7,8 @@ public class EmailService {
         // send mail
     }
 
-    public void execute(SendEmailCommand command) {
+    public Void execute(SendEmailCommand command) {
         sendEmail(command.getReceiver(), command.getMessage());
+        return null;
     }
 }

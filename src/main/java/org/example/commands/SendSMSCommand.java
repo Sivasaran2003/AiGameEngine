@@ -1,17 +1,18 @@
 package org.example.commands;
 
 import org.example.api.User;
+import org.example.events.Event;
 
 public class SendSMSCommand extends SendCommand{
     private String link;
     private String templateId;
     private String templateString;
 
-    public SendSMSCommand(User receiver, String message, String link, String templateString, String templateId) {
-        super(receiver, message);
-        this.link = link;
-        this.templateId = templateId;
-        this.templateString = templateString;
+    public SendSMSCommand(Event event) {
+        super(event.getReceiver(), event.getMessage());
+        this.link = event.getLink();
+        this.templateId = event.getTemplateId();
+        this.templateString = event.getTemplateString();
     }
 
     public String getTemplateId() {
