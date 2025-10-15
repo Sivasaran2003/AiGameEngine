@@ -38,4 +38,8 @@ public class Game {
         if(currentTime < endTime) board.move(move);
         else winner = move.getPlayer().flip();
     }
+
+    public Player getWinner() {
+        return winner;
+    }
 }

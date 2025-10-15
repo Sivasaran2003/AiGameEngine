@@ -22,7 +22,7 @@ public class CenterPlacement implements Placement{
     @Override
     public Optional<Cell> getMove(Player player, TicTacBoard board) {
         Optional<Cell> cell = Optional.empty();
-        if(board.getCell(1, 1) == null) cell =  Optional.of(new Cell(1, 1));
+        if(board.getCell(1, 1) == null) cell =  Optional.of(Cell.getCell(1, 1));
         return cell;
     }
 

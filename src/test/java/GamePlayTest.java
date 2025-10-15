@@ -21,12 +21,12 @@ public class GamePlayTest {
                 System.out.println(i);
                 if (i < playerMoves.length && !ruleEngine.getState(board).isGameOver()) {
                     int[] move = playerMoves[i];
-                    board = gameEngine.move(board, new Move(user, new Cell(move[0], move[1])));
+                    board = gameEngine.move(board, new Move(user, Cell.getCell(move[0], move[1])));
                 }
                 System.out.println(board);
                 if (i < aiMoves.length && !ruleEngine.getState(board).isGameOver()) {
                     int[] move = aiMoves[i];
-                    board = gameEngine.move(board, new Move(computer, new Cell(move[0], move[1])));
+                    board = gameEngine.move(board, new Move(computer, Cell.getCell(move[0], move[1])));
                 }
             }
             return board;

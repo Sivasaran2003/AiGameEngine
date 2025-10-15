@@ -10,6 +10,7 @@ public class Player {
     private User user;
     public Player(String playerSymbol) {
         this.playerSymbol = playerSymbol;
+        user = new User();
     }
 
     public String getPlayerSymbol() {

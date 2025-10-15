@@ -24,7 +24,7 @@ public class RuleEngine {
                     TicTacBoard temp = ((TicTacBoard) board).copy();
                     if (temp.getCell(i, j) != null) continue;
                     // checking : placing the last player's symbol in any of the place makes them a winner
-                    temp = temp.move(new Move(currPlayer.flip(), new Cell(i, j)));
+                    temp = temp.move(new Move(currPlayer.flip(), Cell.getCell(i, j)));
 
                     if (getState(temp).getWinner().getPlayerSymbol().equals(currPlayer.flip().getPlayerSymbol())) {
                         winningMoves++;

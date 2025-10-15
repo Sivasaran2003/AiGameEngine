@@ -1,6 +1,5 @@
 package org.example.commands;
 
-import org.example.api.User;
 import org.example.events.Event;
 
 public class SendEmailCommand extends SendCommand{

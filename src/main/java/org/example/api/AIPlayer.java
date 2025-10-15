@@ -76,7 +76,7 @@ public class AIPlayer extends Player {
                 if(row != -1) break;
             }
 
-            return new Cell(row, col);
+            return Cell.getCell(row, col);
         }else throw new IllegalArgumentException();
     }
 }

@@ -25,10 +25,10 @@ public class ForkPlacement implements Placement{
             for(int col = 0; col < 3; col++) {
                 if(board.getCell(row, col) != null) continue;
                 TicTacBoard boardCopy = board.copy();
-                boardCopy = boardCopy.move(new Move(player, new Cell(row, col)));
+                boardCopy = boardCopy.move(new Move(player, Cell.getCell(row, col)));
                 GameInfo gameInfo = ruleEngine.getInfo(boardCopy, player.flip());
                 if(gameInfo.isFork()) {
-                    return new Cell(row, col);
+                    return Cell.getCell(row, col);
                 }
             }
         }

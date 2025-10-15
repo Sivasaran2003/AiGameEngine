@@ -26,7 +26,7 @@ public class CornerPlacement implements Placement{
 
         for(int i = 0; i < 4; i++) {
             if(board.getCell(corners[i][0], corners[i][1]) != null)
-                cell = Optional.of(new Cell(corners[i][0], corners[i][1]));
+                cell = Optional.of(Cell.getCell(corners[i][0], corners[i][1]));
         }
 
         return cell;

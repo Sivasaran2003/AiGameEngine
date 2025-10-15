@@ -2,7 +2,6 @@ package org.example;
 
 import org.example.api.*;
 import org.example.boards.BoardProxy;
-import org.example.boards.TicTacBoard;
 import org.example.commands.SendEmailCommand;
 import org.example.commands.SendSMSCommand;
 import org.example.events.*;
@@ -38,7 +37,7 @@ public class Main {
             System.out.println("Make your move !!");
             row = scanner.nextInt();
             col = scanner.nextInt();
-            Move oppMove = new Move(human, new Cell(row, col));
+            Move oppMove = new Move(human, Cell.getCell(row, col));
             board = gameEngine.move(board, oppMove);
 
             if(!ruleEngine.getState(board).isGameOver()) {

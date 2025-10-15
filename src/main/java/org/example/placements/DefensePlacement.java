@@ -26,7 +26,7 @@ public class DefensePlacement implements Placement{
                 if(boardCopy.getCell(i, j) != null) continue;
                 boardCopy.setCell(i, j, player.flip().getPlayerSymbol());
                 if(ruleEngine.getState(boardCopy).isGameOver()) {
-                    return new Cell(i, j);
+                    return Cell.getCell(i, j);
                 }
                 boardCopy.setCell(i, j, null);
             }
