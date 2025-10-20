@@ -6,7 +6,7 @@ public class Game {
     Player winner;
     Integer maxTimePerMove, maxTimePerPlayer, timeTakenSinceLastMove;
 
-    public  Game(GameConfig gameConfig, Player winner, Board board, Integer timeTakenSinceLastMove, Integer maxTimePerPlayer, Integer maxTimePerMove) {
+    public Game(GameConfig gameConfig, Player winner, Board board, Integer timeTakenSinceLastMove, Integer maxTimePerPlayer, Integer maxTimePerMove) {
         this.winner = winner;
         this.board = board;
         this.gameConfig = gameConfig;
